@@ -47,7 +47,7 @@ export default function ProductFormDialog({ open, onOpenChange, product, onSubmi
     reset(product ?? EMPTY_PRODUCT);
   }, [product, reset, open]);
 
-  const submit = (data) => {
+  const submit = ({ _id, createdAt, updatedAt, ...data }) => {
     onSubmit({
       ...data,
       price: Number(data.price),

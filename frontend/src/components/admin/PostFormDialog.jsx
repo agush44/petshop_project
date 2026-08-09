@@ -42,13 +42,17 @@ export default function PostFormDialog({ open, onOpenChange, post, onSubmit, sub
     reset(post ?? EMPTY_POST);
   }, [post, reset, open]);
 
+  const submit = ({ _id, createdAt, updatedAt, ...data }) => {
+    onSubmit(data);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{post ? "Editar artículo" : "Nuevo artículo"}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4">
           <div className="grid gap-1.5">
             <Label htmlFor="title">Título</Label>
             <Input id="title" {...register("title", { required: true })} />

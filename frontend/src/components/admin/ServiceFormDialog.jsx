@@ -24,7 +24,7 @@ export default function ServiceFormDialog({ open, onOpenChange, service, onSubmi
     reset(service ?? EMPTY_SERVICE);
   }, [service, reset, open]);
 
-  const submit = (data) => {
+  const submit = ({ _id, createdAt, updatedAt, ...data }) => {
     onSubmit({
       ...data,
       price: Number(data.price),
