@@ -88,7 +88,9 @@ export default function ProductDetail() {
         <div className="flex flex-col gap-4">
           <h1 className="font-heading text-2xl font-bold">{product.name}</h1>
           <div className="flex items-center gap-2">
-            <span className="text-xl font-semibold">{formatPrice(finalPrice)}</span>
+            <span className={`text-xl font-semibold ${onSale ? "text-destructive" : ""}`}>
+              {formatPrice(finalPrice)}
+            </span>
             {onSale && (
               <span className="text-sm text-muted-foreground line-through">
                 {formatPrice(product.price)}

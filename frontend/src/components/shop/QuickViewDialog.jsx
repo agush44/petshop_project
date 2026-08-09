@@ -35,7 +35,9 @@ export default function QuickViewDialog({ product, open, onOpenChange }) {
           <div className="flex flex-col gap-3">
             <p className="text-sm text-muted-foreground">{product.description}</p>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-semibold">{formatPrice(finalPrice)}</span>
+              <span className={`text-lg font-semibold ${onSale ? "text-destructive" : ""}`}>
+                {formatPrice(finalPrice)}
+              </span>
               {onSale && (
                 <span className="text-sm text-muted-foreground line-through">
                   {formatPrice(product.price)}

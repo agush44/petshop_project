@@ -43,18 +43,13 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        <div className="relative min-w-0">
-          <div className="aspect-4/3 min-w-0 overflow-hidden rounded-2xl bg-muted">
-            <img
-              src="https://res.cloudinary.com/dxognqhnp/image/upload/f_auto,q_auto/hero"
-              alt="Perro y gato juntos, mascotas felices de Petshop"
-              className="size-full object-cover"
-              loading="eager"
-            />
-          </div>
-          <span className="absolute -bottom-4 -left-4 hidden rounded-xl bg-background px-4 py-3 shadow-lg ring-1 ring-foreground/10 sm:block">
-            <span className="text-sm font-medium">🐾 +{"1500"} mascotas felices</span>
-          </span>
+        <div className="aspect-4/3 min-w-0 overflow-hidden rounded-2xl bg-muted">
+          <img
+            src="https://res.cloudinary.com/dxognqhnp/image/upload/f_auto,q_auto/hero"
+            alt="Perro y gato juntos, mascotas felices de Petshop"
+            className="size-full object-cover"
+            loading="eager"
+          />
         </div>
       </section>
 

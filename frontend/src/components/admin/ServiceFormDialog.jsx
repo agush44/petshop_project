@@ -11,11 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUploadField from "./ImageUploadField";
 
 const EMPTY_SERVICE = { name: "", description: "", price: "", durationMinutes: "", image: "" };
 
 export default function ServiceFormDialog({ open, onOpenChange, service, onSubmit, submitting }) {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
     defaultValues: EMPTY_SERVICE,
   });
 
@@ -57,10 +58,11 @@ export default function ServiceFormDialog({ open, onOpenChange, service, onSubmi
               <Input id="durationMinutes" type="number" {...register("durationMinutes")} />
             </div>
           </div>
-          <div className="grid gap-1.5">
-            <Label htmlFor="image">URL de imagen</Label>
-            <Input id="image" {...register("image")} />
-          </div>
+          <ImageUploadField
+            label="Imagen del servicio"
+            value={watch("image")}
+            onChange={(url) => setValue("image", url)}
+          />
           <DialogFooter>
             <Button type="submit" disabled={submitting}>
               {submitting ? "Guardando..." : "Guardar"}

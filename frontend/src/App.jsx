@@ -10,6 +10,7 @@ import AuthLayout from "@/Layouts/AuthLayout";
 import AdminLayout from "@/Layouts/AdminLayout";
 import Loader from "@/components/layout/Loader";
 import ErrorFallback from "@/components/ErrorFallback";
+import ScrollToTop from "@/components/ScrollToTop";
 
 // Todas las páginas se cargan con lazy() para hacer code-splitting por ruta:
 // cada página se descarga recién cuando el usuario navega a ella.
@@ -55,6 +56,7 @@ export default function App() {
       <AuthProvider>
         <CartProvider>
           <Toaster position="top-center" richColors />
+          <ScrollToTop />
           <Routes>
             <Route element={<PublicLayout />}>
               <Route path="/" element={withSuspense(Home)} />

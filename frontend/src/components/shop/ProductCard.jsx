@@ -49,7 +49,9 @@ export default function ProductCard({ product }) {
               <h3 className="font-medium text-sm line-clamp-2">{product.name}</h3>
             </Link>
             <div className="mt-1 flex items-center gap-2">
-              <span className="font-semibold">{formatPrice(finalPrice)}</span>
+              <span className={`font-semibold ${onSale ? "text-destructive" : ""}`}>
+                {formatPrice(finalPrice)}
+              </span>
               {onSale && (
                 <span className="text-xs text-muted-foreground line-through">
                   {formatPrice(product.price)}

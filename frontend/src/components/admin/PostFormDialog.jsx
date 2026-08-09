@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUploadField from "./ImageUploadField";
 
 const EMPTY_POST = {
   title: "",
@@ -24,7 +25,15 @@ const EMPTY_POST = {
 };
 
 export default function PostFormDialog({ open, onOpenChange, post, onSubmit, submitting }) {
-  const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: EMPTY_POST,
   });
   const { fields, append, remove } = useFieldArray({ control, name: "sections" });
@@ -54,10 +63,11 @@ export default function PostFormDialog({ open, onOpenChange, post, onSubmit, sub
             <Textarea id="excerpt" {...register("excerpt", { required: true })} />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-1.5">
-              <Label htmlFor="coverImage">Imagen de portada (url)</Label>
-              <Input id="coverImage" {...register("coverImage")} />
-            </div>
+            <ImageUploadField
+              label="Imagen de portada"
+              value={watch("coverImage")}
+              onChange={(url) => setValue("coverImage", url)}
+            />
             <div className="grid gap-1.5">
               <Label htmlFor="coverImageAlt">Alt de la imagen</Label>
               <Input id="coverImageAlt" {...register("coverImageAlt")} />

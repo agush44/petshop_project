@@ -24,6 +24,7 @@ import {
   CATEGORY_ITEMS,
   ANIMAL_TYPE_ITEMS,
 } from "@/components/shop/ProductFilters";
+import ImageUploadField from "./ImageUploadField";
 
 const EMPTY_PRODUCT = {
   name: "",
@@ -121,10 +122,11 @@ export default function ProductFormDialog({ open, onOpenChange, product, onSubmi
               </Select>
             </div>
           </div>
-          <div className="grid gap-1.5">
-            <Label htmlFor="image">URL de imagen</Label>
-            <Input id="image" {...register("image")} />
-          </div>
+          <ImageUploadField
+            label="Imagen del producto"
+            value={watch("image")}
+            onChange={(url) => setValue("image", url)}
+          />
           <div className="grid gap-1.5">
             <Label htmlFor="imageAlt">Texto alternativo de la imagen</Label>
             <Input id="imageAlt" {...register("imageAlt")} />
