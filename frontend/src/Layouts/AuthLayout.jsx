@@ -6,7 +6,9 @@ export default function AuthLayout() {
       <Link to="/" className="font-heading text-xl font-semibold">
         🐾 Petshop
       </Link>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }

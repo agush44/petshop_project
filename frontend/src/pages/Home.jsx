@@ -33,7 +33,7 @@ export default function Home() {
           Alimento, accesorios e higiene para perros y gatos, con envío y confirmación
           de pedido directo por WhatsApp.
         </p>
-        <div className="mt-6 flex justify-center gap-3">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button size="lg" render={<Link to="/tienda" />}>
             Ver tienda
           </Button>

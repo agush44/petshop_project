@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,9 +16,10 @@ import { formatPrice } from "@/lib/formatPrice";
 export default function CartSheet() {
   const { cart, increaseQuantity, decreaseQuantity, removeFromCart, totalItems, totalPrice } =
     useCart();
+  const [open, setOpen] = useState(false);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         render={<Button variant="ghost" size="icon" className="relative" aria-label="Ver carrito" />}
       >
@@ -96,7 +98,11 @@ export default function CartSheet() {
               <span>Total</span>
               <span>{totalPrice}</span>
             </div>
-            <Button render={<Link to="/checkout" />} className="w-full">
+            <Button
+              render={<Link to="/checkout" />}
+              className="w-full"
+              onClick={() => setOpen(false)}
+            >
               Finalizar compra
             </Button>
           </SheetFooter>
