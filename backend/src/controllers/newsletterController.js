@@ -14,4 +14,13 @@ const subscribeNewsletter = async (req, res) => {
   }
 };
 
-export { subscribeNewsletter };
+const getNewsletterSubscribers = async (req, res) => {
+  try {
+    const subscribers = await NewsletterSubscriber.find().sort({ createdAt: -1 });
+    res.status(200).json(subscribers);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching subscribers" });
+  }
+};
+
+export { subscribeNewsletter, getNewsletterSubscribers };

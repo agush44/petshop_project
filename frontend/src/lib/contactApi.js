@@ -1,4 +1,4 @@
-import fetchData, { API_URL } from "./api";
+import fetchData, { API_URL, authHeaders } from "./api";
 
 export const sendContactMessage = (data) =>
   fetchData(`${API_URL}/api/contact`, {
@@ -6,3 +6,6 @@ export const sendContactMessage = (data) =>
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+
+export const fetchContactMessages = () =>
+  fetchData(`${API_URL}/api/contact`, { headers: authHeaders() });

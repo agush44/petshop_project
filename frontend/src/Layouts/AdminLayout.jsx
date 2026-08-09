@@ -5,6 +5,7 @@ import {
   Wrench,
   ClipboardList,
   Newspaper,
+  Mail,
   LogOut,
   Menu,
 } from "lucide-react";
@@ -24,6 +25,7 @@ const adminLinks = [
   { to: "/admin/servicios", label: "Servicios", icon: Wrench },
   { to: "/admin/pedidos", label: "Pedidos", icon: ClipboardList },
   { to: "/admin/blog", label: "Blog", icon: Newspaper },
+  { to: "/admin/mensajes", label: "Mensajes", icon: Mail },
 ];
 
 function AdminNav({ onNavigate }) {

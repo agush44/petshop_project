@@ -32,6 +32,7 @@ const AdminProducts = lazy(() => import("@/pages/Admin/AdminProducts"));
 const AdminServices = lazy(() => import("@/pages/Admin/AdminServices"));
 const AdminOrders = lazy(() => import("@/pages/Admin/AdminOrders"));
 const AdminBlog = lazy(() => import("@/pages/Admin/AdminBlog"));
+const AdminMessages = lazy(() => import("@/pages/Admin/AdminMessages"));
 
 /** Envuelve una página lazy en su propio Suspense boundary con el loader compartido. */
 function withSuspense(Component) {
@@ -83,6 +84,7 @@ export default function App() {
                 <Route path="/admin/servicios" element={withSuspense(AdminServices)} />
                 <Route path="/admin/pedidos" element={withSuspense(AdminOrders)} />
                 <Route path="/admin/blog" element={withSuspense(AdminBlog)} />
+                <Route path="/admin/mensajes" element={withSuspense(AdminMessages)} />
               </Route>
             </Route>
           </Routes>
