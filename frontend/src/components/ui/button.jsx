@@ -49,6 +49,10 @@ function Button({
   return (
     <ButtonPrimitive
       data-slot="button"
+      // Cuando `render` apunta a un elemento no-<button> (ej. <Link>/<a>), Base UI
+      // necesita nativeButton=false para no reclamar semántica nativa de botón.
+      // Va antes de {...props} para que un nativeButton explícito lo pise.
+      nativeButton={!props.render}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props} />
   );
