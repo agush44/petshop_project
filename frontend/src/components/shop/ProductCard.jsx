@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/formatPrice";
+import { hasActiveDiscount, getFinalPrice } from "@/lib/pricing";
 import { useCart } from "@/context/CartContext";
 import QuickViewDialog from "./QuickViewDialog";
 
@@ -12,9 +13,8 @@ export default function ProductCard({ product }) {
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const { addToCart } = useCart();
 
-  const finalPrice = product.discount
-    ? product.price * (1 - product.discount / 100)
-    : product.price;
+  const onSale = hasActiveDiscount(product);
+  const finalPrice = getFinalPrice(product);
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
               className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
-          {product.discount > 0 && (
+          {onSale && (
             <Badge className="absolute top-2 left-2" variant="destructive">
               -{product.discount}%
             </Badge>
@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
             </Link>
             <div className="mt-1 flex items-center gap-2">
               <span className="font-semibold">{formatPrice(finalPrice)}</span>
-              {product.discount > 0 && (
+              {onSale && (
                 <span className="text-xs text-muted-foreground line-through">
                   {formatPrice(product.price)}
                 </span>

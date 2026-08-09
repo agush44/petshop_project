@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import PageBreadcrumb from "@/components/layout/PageBreadcrumb";
 import { formatPrice } from "@/lib/formatPrice";
 import { fetchOrders } from "@/lib/orderApi";
 import { getCurrentUser } from "@/lib/authApi";
+import { useAuth } from "@/context/AuthContext";
 
 const STATUS_LABEL = {
   pendiente: "Pendiente",
@@ -15,6 +18,7 @@ const STATUS_LABEL = {
 };
 
 export default function Cuenta() {
+  const { isAdmin } = useAuth();
   const [user, setUser] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +37,13 @@ export default function Cuenta() {
     <div>
       <PageBreadcrumb items={[{ label: "Mi cuenta" }]} />
       <h1 className="font-heading text-3xl font-bold mb-2">Mi cuenta</h1>
-      {user && <p className="text-muted-foreground mb-8">{user.email}</p>}
+      {user && <p className="text-muted-foreground mb-2">{user.email}</p>}
+      {isAdmin && (
+        <Button variant="outline" size="sm" className="mb-8 gap-1.5" render={<Link to="/admin" />}>
+          <ShieldCheck className="size-4" />
+          Ir al panel admin
+        </Button>
+      )}
 
       <h2 className="font-heading text-xl font-semibold mb-4">Historial de pedidos</h2>
       {loading ? (

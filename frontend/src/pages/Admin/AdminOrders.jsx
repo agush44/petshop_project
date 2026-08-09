@@ -59,19 +59,26 @@ export default function AdminOrders() {
           <TableHeader>
             <TableRow>
               <TableHead>Pedido</TableHead>
-              <TableHead>Cliente</TableHead>
-              <TableHead>Total</TableHead>
-              <TableHead>Fecha</TableHead>
+              <TableHead className="hidden sm:table-cell">Cliente</TableHead>
+              <TableHead className="hidden sm:table-cell">Total</TableHead>
+              <TableHead className="hidden sm:table-cell">Fecha</TableHead>
               <TableHead>Estado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {orders.map((order) => (
               <TableRow key={order._id}>
-                <TableCell className="font-medium">#{order._id.slice(-6).toUpperCase()}</TableCell>
-                <TableCell>{order.shipping?.fullName}</TableCell>
-                <TableCell>{formatPrice(order.total)}</TableCell>
-                <TableCell>{new Date(order.createdAt).toLocaleDateString("es-AR")}</TableCell>
+                <TableCell className="font-medium">
+                  #{order._id.slice(-6).toUpperCase()}
+                  <p className="text-xs text-muted-foreground sm:hidden">
+                    {order.shipping?.fullName} · {formatPrice(order.total)}
+                  </p>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell">{order.shipping?.fullName}</TableCell>
+                <TableCell className="hidden sm:table-cell">{formatPrice(order.total)}</TableCell>
+                <TableCell className="hidden sm:table-cell">
+                  {new Date(order.createdAt).toLocaleDateString("es-AR")}
+                </TableCell>
                 <TableCell>
                   <Select
                     items={STATUS_ITEMS}

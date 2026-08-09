@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/formatPrice";
+import { hasActiveDiscount, getFinalPrice } from "@/lib/pricing";
 import { useCart } from "@/context/CartContext";
 
 export default function QuickViewDialog({ product, open, onOpenChange }) {
   const { addToCart } = useCart();
-  const finalPrice = product.discount
-    ? product.price * (1 - product.discount / 100)
-    : product.price;
+  const onSale = hasActiveDiscount(product);
+  const finalPrice = getFinalPrice(product);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -36,7 +36,7 @@ export default function QuickViewDialog({ product, open, onOpenChange }) {
             <p className="text-sm text-muted-foreground">{product.description}</p>
             <div className="flex items-center gap-2">
               <span className="text-lg font-semibold">{formatPrice(finalPrice)}</span>
-              {product.discount > 0 && (
+              {onSale && (
                 <span className="text-sm text-muted-foreground line-through">
                   {formatPrice(product.price)}
                 </span>

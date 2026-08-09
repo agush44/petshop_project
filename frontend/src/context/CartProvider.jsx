@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { CartContext } from "./CartContext";
 import { formatPrice } from "../lib/formatPrice";
+import { getFinalPrice } from "../lib/pricing";
 
 export default function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
@@ -16,9 +17,7 @@ export default function CartProvider({ children }) {
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item._id === product._id);
-      const finalPrice = product.discount
-        ? product.price * (1 - product.discount / 100)
-        : product.price;
+      const finalPrice = getFinalPrice(product);
 
       if (existing) {
         return prevCart.map((item) =>

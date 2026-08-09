@@ -99,17 +99,25 @@ export default function AdminServices() {
           <TableHeader>
             <TableRow>
               <TableHead>Nombre</TableHead>
-              <TableHead>Precio</TableHead>
-              <TableHead>Duración</TableHead>
+              <TableHead className="hidden sm:table-cell">Precio</TableHead>
+              <TableHead className="hidden sm:table-cell">Duración</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {services.map((service) => (
               <TableRow key={service._id}>
-                <TableCell className="font-medium">{service.name}</TableCell>
-                <TableCell>{formatPrice(service.price)}</TableCell>
-                <TableCell>{service.durationMinutes ? `${service.durationMinutes} min` : "-"}</TableCell>
+                <TableCell className="font-medium">
+                  {service.name}
+                  <p className="text-xs text-muted-foreground sm:hidden">
+                    {formatPrice(service.price)}
+                    {service.durationMinutes ? ` · ${service.durationMinutes} min` : ""}
+                  </p>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell">{formatPrice(service.price)}</TableCell>
+                <TableCell className="hidden sm:table-cell">
+                  {service.durationMinutes ? `${service.durationMinutes} min` : "-"}
+                </TableCell>
                 <TableCell className="text-right flex justify-end gap-2">
                   <Button
                     variant="ghost"

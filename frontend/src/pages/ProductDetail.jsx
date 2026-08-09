@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageBreadcrumb from "@/components/layout/PageBreadcrumb";
 import { formatPrice } from "@/lib/formatPrice";
+import { hasActiveDiscount, getFinalPrice } from "@/lib/pricing";
 import { fetchProductById } from "@/lib/productApi";
 import { useCart } from "@/context/CartContext";
 
@@ -59,9 +60,8 @@ export default function ProductDetail() {
     return <p className="text-center py-12 text-muted-foreground">Producto no encontrado.</p>;
   }
 
-  const finalPrice = product.discount
-    ? product.price * (1 - product.discount / 100)
-    : product.price;
+  const onSale = hasActiveDiscount(product);
+  const finalPrice = getFinalPrice(product);
 
   return (
     <div>
@@ -89,7 +89,7 @@ export default function ProductDetail() {
           <h1 className="font-heading text-2xl font-bold">{product.name}</h1>
           <div className="flex items-center gap-2">
             <span className="text-xl font-semibold">{formatPrice(finalPrice)}</span>
-            {product.discount > 0 && (
+            {onSale && (
               <span className="text-sm text-muted-foreground line-through">
                 {formatPrice(product.price)}
               </span>

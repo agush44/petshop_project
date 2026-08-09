@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Menu, X, User, LogOut, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import CartSheet from "@/components/cart/CartSheet";
 import { useAuth } from "@/context/AuthContext";
 
@@ -15,12 +21,18 @@ const navLinks = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
 
   const linkClass = ({ isActive }) =>
     `text-sm font-medium transition-colors hover:text-primary ${
       isActive ? "text-primary" : "text-muted-foreground"
     }`;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -38,14 +50,35 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="hidden sm:inline-flex"
-            render={<Link to={isAuthenticated ? "/cuenta" : "/login"} />}
-          >
-            {isAuthenticated ? "Mi cuenta" : "Ingresar"}
-          </Button>
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button variant="ghost" size="sm" className="hidden sm:inline-flex gap-1.5" />
+                }
+              >
+                <User className="size-4" />
+                Mi cuenta
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem render={<Link to="/cuenta" />}>Mis pedidos</DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem render={<Link to="/admin" />}>
+                    <ShieldCheck className="size-4" />
+                    Panel admin
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+                  <LogOut className="size-4" />
+                  Cerrar sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" size="sm" className="hidden sm:inline-flex" render={<Link to="/login" />}>
+              Ingresar
+            </Button>
+          )}
           <CartSheet />
           <Button
             variant="ghost"
@@ -72,13 +105,32 @@ export default function Header() {
               {link.label}
             </NavLink>
           ))}
-          <NavLink
-            to={isAuthenticated ? "/cuenta" : "/login"}
-            className={linkClass}
-            onClick={() => setMenuOpen(false)}
-          >
-            {isAuthenticated ? "Mi cuenta" : "Ingresar"}
-          </NavLink>
+          {isAuthenticated ? (
+            <>
+              <NavLink to="/cuenta" className={linkClass} onClick={() => setMenuOpen(false)}>
+                Mi cuenta
+              </NavLink>
+              {isAdmin && (
+                <NavLink to="/admin" className={linkClass} onClick={() => setMenuOpen(false)}>
+                  Panel admin
+                </NavLink>
+              )}
+              <button
+                type="button"
+                className="text-left text-sm font-medium text-destructive"
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleLogout();
+                }}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <NavLink to="/login" className={linkClass} onClick={() => setMenuOpen(false)}>
+              Ingresar
+            </NavLink>
+          )}
         </nav>
       )}
     </header>

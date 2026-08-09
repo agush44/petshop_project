@@ -94,19 +94,24 @@ export default function AdminProducts() {
           <TableHeader>
             <TableRow>
               <TableHead>Nombre</TableHead>
-              <TableHead>Categoría</TableHead>
-              <TableHead>Precio</TableHead>
-              <TableHead>Stock</TableHead>
+              <TableHead className="hidden sm:table-cell">Categoría</TableHead>
+              <TableHead className="hidden sm:table-cell">Precio</TableHead>
+              <TableHead className="hidden sm:table-cell">Stock</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product) => (
               <TableRow key={product._id}>
-                <TableCell className="font-medium">{product.name}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell>{formatPrice(product.price)}</TableCell>
-                <TableCell>{product.stock}</TableCell>
+                <TableCell className="font-medium">
+                  {product.name}
+                  <p className="text-xs text-muted-foreground sm:hidden">
+                    {product.category} · {formatPrice(product.price)} · stock: {product.stock}
+                  </p>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell">{product.category}</TableCell>
+                <TableCell className="hidden sm:table-cell">{formatPrice(product.price)}</TableCell>
+                <TableCell className="hidden sm:table-cell">{product.stock}</TableCell>
                 <TableCell className="text-right flex justify-end gap-2">
                   <Button
                     variant="ghost"

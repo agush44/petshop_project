@@ -94,7 +94,7 @@ export default function AdminBlog() {
           <TableHeader>
             <TableRow>
               <TableHead>Título</TableHead>
-              <TableHead>Slug</TableHead>
+              <TableHead className="hidden sm:table-cell">Slug</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
@@ -102,8 +102,13 @@ export default function AdminBlog() {
           <TableBody>
             {posts.map((post) => (
               <TableRow key={post._id}>
-                <TableCell className="font-medium">{post.title}</TableCell>
-                <TableCell className="text-muted-foreground">{post.slug}</TableCell>
+                <TableCell className="font-medium">
+                  {post.title}
+                  <p className="text-xs text-muted-foreground sm:hidden">{post.slug}</p>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell text-muted-foreground">
+                  {post.slug}
+                </TableCell>
                 <TableCell>
                   <Badge variant={post.published ? "default" : "secondary"}>
                     {post.published ? "Publicado" : "Borrador"}

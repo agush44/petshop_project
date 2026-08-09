@@ -25,21 +25,36 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16">
-      <section className="text-center py-12">
-        <h1 className="font-heading text-4xl sm:text-5xl font-bold tracking-tight">
-          Todo para tu mascota, en un solo lugar
-        </h1>
-        <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-          Alimento, accesorios e higiene para perros y gatos, con envío y confirmación
-          de pedido directo por WhatsApp.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button size="lg" render={<Link to="/tienda" />}>
-            Ver tienda
-          </Button>
-          <Button size="lg" variant="outline" render={<a href="#como-comprar" />}>
-            Cómo comprar
-          </Button>
+      <section className="grid items-center gap-10 py-8 sm:py-12 lg:grid-cols-2">
+        <div className="text-center lg:text-left">
+          <h1 className="font-heading text-4xl sm:text-5xl font-bold tracking-tight text-balance">
+            Todo para tu mascota, en un solo lugar
+          </h1>
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto lg:mx-0">
+            Alimento, accesorios e higiene para perros y gatos, con envío y confirmación
+            de pedido directo por WhatsApp.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <Button size="lg" render={<Link to="/tienda" />}>
+              Ver tienda
+            </Button>
+            <Button size="lg" variant="outline" render={<a href="#como-comprar" />}>
+              Cómo comprar
+            </Button>
+          </div>
+        </div>
+        <div className="relative min-w-0">
+          <div className="aspect-4/3 min-w-0 overflow-hidden rounded-2xl bg-muted">
+            <img
+              src="https://res.cloudinary.com/dxognqhnp/image/upload/v1747758065/UMR4cb19495547114_ydjs8t.jpg"
+              alt="Gatos jugando en un rascador con plataforma"
+              className="size-full object-cover"
+              loading="eager"
+            />
+          </div>
+          <span className="absolute -bottom-4 -left-4 hidden rounded-xl bg-background px-4 py-3 shadow-lg ring-1 ring-foreground/10 sm:block">
+            <span className="text-sm font-medium">🐾 +{"1500"} mascotas felices</span>
+          </span>
         </div>
       </section>
 
