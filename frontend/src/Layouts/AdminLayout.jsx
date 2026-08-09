@@ -2,7 +2,6 @@ import { NavLink, Outlet, Link } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
-  Wrench,
   ClipboardList,
   Newspaper,
   Mail,
@@ -19,10 +18,13 @@ import {
 } from "@/components/ui/sheet";
 import { useAuth } from "@/context/AuthContext";
 
+// "Servicios" (peluquería/veterinaria) tiene CRUD completo en el backend y
+// la página /admin/servicios sigue funcionando, pero no se linkea acá porque
+// hoy no hay servicios reales cargados ni una página pública que los
+// muestre. Ver "Notas y limitaciones conocidas" en el README.
 const adminLinks = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/productos", label: "Productos", icon: Package },
-  { to: "/admin/servicios", label: "Servicios", icon: Wrench },
   { to: "/admin/pedidos", label: "Pedidos", icon: ClipboardList },
   { to: "/admin/blog", label: "Blog", icon: Newspaper },
   { to: "/admin/mensajes", label: "Mensajes", icon: Mail },

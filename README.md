@@ -229,3 +229,4 @@ Las rutas marcadas "(admin)" requieren header `Authorization: Bearer <token>` de
 - El blog no tiene sistema de comentarios (decisión de alcance para priorizar el resto de las features).
 - Los mensajes de contacto y las suscripciones al newsletter no envían un email de notificación; quedan guardados en MongoDB y se consultan desde `/admin/mensajes`.
 - La confirmación de pedido por WhatsApp abre `wa.me` con el mensaje prearmado — no hay integración con la API oficial de WhatsApp Business (requeriría cuenta de Meta Business aprobada).
+- **Servicios** (peluquería, veterinaria, etc.) tiene CRUD completo en el backend (`Service` model, `/api/services`) y su página de admin sigue accesible en `/admin/servicios`, pero se sacó del menú de navegación a propósito: hoy no hay servicios reales cargados ni una página pública que los muestre. Queda documentado como algo fácil de expandir a futuro, no como una feature rota.

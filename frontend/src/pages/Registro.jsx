@@ -31,17 +31,18 @@ export default function Registro() {
   };
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Crear cuenta</CardTitle>
+    <Card className="w-full max-w-md">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-2xl">Crear cuenta</CardTitle>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <div className="grid gap-1.5">
+      <CardContent className="pt-2 pb-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+          <div className="grid gap-2">
             <Label htmlFor="email">Correo electrónico</Label>
             <Input
               id="email"
               type="email"
+              className="h-11 text-base"
               disabled={loading}
               {...register("email", { required: true })}
             />
@@ -49,11 +50,12 @@ export default function Registro() {
               <p className="text-sm text-destructive">Ingresá un correo válido.</p>
             )}
           </div>
-          <div className="grid gap-1.5">
+          <div className="grid gap-2">
             <Label htmlFor="password">Contraseña</Label>
             <Input
               id="password"
               type="password"
+              className="h-11 text-base"
               disabled={loading}
               {...register("password", { required: true, minLength: 6 })}
             />
@@ -61,11 +63,11 @@ export default function Registro() {
               <p className="text-sm text-destructive">Mínimo 6 caracteres.</p>
             )}
           </div>
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" size="lg" disabled={loading} className="w-full">
             {loading ? "Creando cuenta..." : "Registrarse"}
           </Button>
         </form>
-        <p className="text-center text-sm text-muted-foreground mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-6">
           ¿Ya tenés cuenta?{" "}
           <Link to="/login" className="text-primary hover:underline">
             Iniciá sesión

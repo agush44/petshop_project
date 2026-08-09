@@ -32,17 +32,18 @@ export default function Login() {
   };
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Iniciar sesión</CardTitle>
+    <Card className="w-full max-w-md">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <div className="grid gap-1.5">
+      <CardContent className="pt-2 pb-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+          <div className="grid gap-2">
             <Label htmlFor="email">Correo electrónico</Label>
             <Input
               id="email"
               type="email"
+              className="h-11 text-base"
               disabled={loading}
               {...register("email", { required: true })}
             />
@@ -50,11 +51,12 @@ export default function Login() {
               <p className="text-sm text-destructive">Ingresá tu correo.</p>
             )}
           </div>
-          <div className="grid gap-1.5">
+          <div className="grid gap-2">
             <Label htmlFor="password">Contraseña</Label>
             <Input
               id="password"
               type="password"
+              className="h-11 text-base"
               disabled={loading}
               {...register("password", { required: true })}
             />
@@ -62,11 +64,11 @@ export default function Login() {
               <p className="text-sm text-destructive">Ingresá tu contraseña.</p>
             )}
           </div>
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" size="lg" disabled={loading} className="w-full">
             {loading ? "Ingresando..." : "Iniciar sesión"}
           </Button>
         </form>
-        <p className="text-center text-sm text-muted-foreground mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-6">
           ¿No tenés cuenta?{" "}
           <Link to="/registro" className="text-primary hover:underline">
             Registrate
