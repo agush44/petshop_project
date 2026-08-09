@@ -1,14 +1,48 @@
 import Order from "../models/order.js";
+import Product from "../models/product.js";
+import { getFinalPrice } from "../utils/pricing.js";
 
+// El precio y el total nunca se toman del body: se recalculan acá a partir
+// del producto real en la base. Si se confiara en lo que manda el cliente,
+// cualquiera podría alterar el request y comprar a un precio inventado.
 const createOrder = async (req, res) => {
   try {
+    const requestedItems = req.body.items;
+
+    const products = await Product.find({
+      _id: { $in: requestedItems.map((item) => item.product) },
+    });
+    const productsById = new Map(products.map((p) => [String(p._id), p]));
+
+    const items = requestedItems.map((requested) => {
+      const product = productsById.get(String(requested.product));
+      if (!product) {
+        throw Object.assign(new Error(`Producto ${requested.product} no encontrado`), {
+          status: 400,
+        });
+      }
+      return {
+        product: product._id,
+        name: product.name,
+        price: getFinalPrice(product),
+        quantity: requested.quantity,
+      };
+    });
+
+    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
     const order = new Order({
-      ...req.body,
+      items,
+      total,
+      shipping: req.body.shipping,
       user: req.user?.id,
     });
     await order.save();
     res.status(201).json(order);
   } catch (error) {
+    if (error.status === 400) {
+      return res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: "Error creating order" });
   }
 };

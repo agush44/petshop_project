@@ -3,10 +3,13 @@ import Product from "../models/product.js";
 const getProducts = async (req, res) => {
   try {
     const { category, animalType, search } = req.query;
+    // req.query puede traer objetos (ej. ?category[$ne]=null se parsea como
+    // { $ne: 'null' }), así que solo se acepta el filtro si es un string real
+    // antes de que llegue a Mongo — si no, Mongo lo interpretaría como operador.
     const filter = {};
-    if (category) filter.category = category;
-    if (animalType) filter.animalType = animalType;
-    if (search) filter.name = { $regex: search, $options: "i" };
+    if (typeof category === "string") filter.category = category;
+    if (typeof animalType === "string") filter.animalType = animalType;
+    if (typeof search === "string") filter.name = { $regex: search, $options: "i" };
 
     const products = await Product.find(filter);
     res.status(200).json(products);
