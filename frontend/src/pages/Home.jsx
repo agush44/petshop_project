@@ -46,8 +46,8 @@ export default function Home() {
         <div className="relative min-w-0">
           <div className="aspect-4/3 min-w-0 overflow-hidden rounded-2xl bg-muted">
             <img
-              src="https://res.cloudinary.com/dxognqhnp/image/upload/v1747758065/UMR4cb19495547114_ydjs8t.jpg"
-              alt="Gatos jugando en un rascador con plataforma"
+              src="https://res.cloudinary.com/dxognqhnp/image/upload/f_auto,q_auto/hero"
+              alt="Perro y gato juntos, mascotas felices de Petshop"
               className="size-full object-cover"
               loading="eager"
             />
