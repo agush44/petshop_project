@@ -4,9 +4,19 @@ import { Button } from "@/components/ui/button";
 import PageBreadcrumb from "@/components/layout/PageBreadcrumb";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/formatPrice";
+import { hasActiveDiscount } from "@/lib/pricing";
 
 export default function Carrito() {
-  const { cart, increaseQuantity, decreaseQuantity, removeFromCart, totalPrice } = useCart();
+  const {
+    cart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+    totalPrice,
+    totalOriginalPrice,
+    totalSavingsPrice,
+    hasSavings,
+  } = useCart();
 
   return (
     <div>
@@ -31,7 +41,16 @@ export default function Carrito() {
                 />
                 <div className="flex-1">
                   <p className="font-medium">{item.name}</p>
-                  <p className="text-sm text-muted-foreground">{formatPrice(item.finalPrice)}</p>
+                  <div className="flex items-center gap-2">
+                    <p className={`text-sm ${hasActiveDiscount(item) ? "text-destructive font-medium" : "text-muted-foreground"}`}>
+                      {formatPrice(item.finalPrice)}
+                    </p>
+                    {hasActiveDiscount(item) && (
+                      <p className="text-xs text-muted-foreground line-through">
+                        {formatPrice(item.price)}
+                      </p>
+                    )}
+                  </div>
                   <div className="flex items-center gap-2 mt-2">
                     <Button
                       variant="outline"
@@ -68,10 +87,22 @@ export default function Carrito() {
           </ul>
 
           <div className="border rounded-lg p-6 h-fit flex flex-col gap-4">
-            <div className="flex justify-between font-medium text-lg">
-              <span>Total</span>
-              <span>{totalPrice}</span>
+            <div className="flex justify-between items-baseline text-lg">
+              <span className="font-medium">Total</span>
+              <span className="flex items-baseline gap-2">
+                {hasSavings && (
+                  <span className="text-sm text-muted-foreground line-through">
+                    {totalOriginalPrice}
+                  </span>
+                )}
+                <span className="font-medium">{totalPrice}</span>
+              </span>
             </div>
+            {hasSavings && (
+              <p className="text-sm text-destructive text-right -mt-2">
+                Ahorrás {totalSavingsPrice}
+              </p>
+            )}
             <Button render={<Link to="/checkout" />} size="lg">
               Finalizar compra
             </Button>

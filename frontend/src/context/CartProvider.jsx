@@ -56,7 +56,12 @@ export default function CartProvider({ children }) {
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalRaw = cart.reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
+  const totalOriginalRaw = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalPrice = formatPrice(totalRaw);
+  const totalOriginalPrice = formatPrice(totalOriginalRaw);
+  const totalSavings = totalOriginalRaw - totalRaw;
+  const totalSavingsPrice = formatPrice(totalSavings);
+  const hasSavings = totalSavings > 0.01;
 
   return (
     <CartContext.Provider
@@ -70,6 +75,9 @@ export default function CartProvider({ children }) {
         totalItems,
         totalRaw,
         totalPrice,
+        totalOriginalPrice,
+        totalSavingsPrice,
+        hasSavings,
       }}
     >
       {children}
