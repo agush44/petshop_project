@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Menu, X, User, LogOut, ShieldCheck } from "lucide-react";
+import { Menu, X, User, LogOut, ShieldCheck, PawPrint } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -35,15 +35,21 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="font-heading text-lg font-semibold">
-          🐾 Petshop
+    <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/90">
+      <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-5 px-4 sm:px-6">
+        <Link to="/" className="flex shrink-0 items-center gap-3 rounded-xl py-2 text-foreground" aria-label="Petshop, ir al inicio">
+          <span className="grid size-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+            <PawPrint className="size-7" aria-hidden="true" />
+          </span>
+          <span className="flex flex-col leading-tight">
+            <span className="font-heading text-2xl font-extrabold tracking-tight">Petshop</span>
+            <span className="hidden text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:block">Todo para su bienestar</span>
+          </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-1 rounded-full bg-muted/70 p-1.5">
           {navLinks.map((link) => (
-            <NavLink key={link.to} to={link.to} className={linkClass} end={link.to === "/"}>
+            <NavLink key={link.to} to={link.to} className={({isActive}) => `rounded-full px-4 py-2.5 text-sm font-semibold transition-colors hover:text-primary ${isActive ? "bg-card text-primary shadow-sm" : "text-foreground/75"}`} end={link.to === "/"}>
               {link.label}
             </NavLink>
           ))}
@@ -54,7 +60,7 @@ export default function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger
                 render={
-                  <Button variant="ghost" size="sm" className="hidden sm:inline-flex gap-1.5" />
+            <Button variant="ghost" size="sm" className="hidden sm:inline-flex gap-1.5 font-semibold" />
                 }
               >
                 <User className="size-4" />
@@ -75,7 +81,7 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button variant="ghost" size="sm" className="hidden sm:inline-flex" render={<Link to="/login" />}>
+            <Button variant="outline" size="sm" className="hidden sm:inline-flex font-semibold" render={<Link to="/login" />}>
               Ingresar
             </Button>
           )}
@@ -83,7 +89,7 @@ export default function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="lg:hidden"
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
             onClick={() => setMenuOpen((v) => !v)}
           >
@@ -93,12 +99,12 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <nav className="md:hidden border-t bg-background px-4 py-3 flex flex-col gap-3">
+        <nav className="lg:hidden border-t bg-card px-4 py-4 flex flex-col gap-1.5 shadow-lg">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
-              className={linkClass}
+              className={({isActive}) => `rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-muted ${isActive ? "bg-muted text-primary" : "text-foreground"}`}
               end={link.to === "/"}
               onClick={() => setMenuOpen(false)}
             >

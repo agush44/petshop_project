@@ -15,6 +15,13 @@ const orderSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     items: { type: [orderItemSchema], required: true, validate: (v) => v.length > 0 },
     total: { type: Number, required: true, min: 0 },
+    payment: {
+      method: { type: String, enum: ["whatsapp", "transfer", "mercadopago"], default: "whatsapp" },
+      status: { type: String, enum: ["not_required", "pending", "approved", "rejected", "refunded"], default: "not_required" },
+      preferenceId: { type: String },
+      paymentId: { type: String },
+      paidAt: { type: Date },
+    },
     status: {
       type: String,
       enum: ["pendiente", "confirmado", "enviado", "entregado", "cancelado"],

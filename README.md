@@ -24,7 +24,7 @@ E-commerce de mascotas: tienda online (alimento, accesorios e higiene para perro
 - Vista rápida de producto en modal (quick view) sin salir del catálogo.
 - Detalle de producto con zoom de imagen y botón "compartir" (Web Share API, con fallback a copiar link).
 - Carrito persistente (localStorage) con drawer lateral y vista de página completa.
-- Checkout con validación de formulario y confirmación de pedido automática por WhatsApp.
+- Checkout con Mercado Pago Checkout Pro, transferencia bancaria manual o coordinación por WhatsApp.
 - Blog de cuidado animal con índice de secciones por ancla en cada artículo.
 - Formulario de contacto y suscripción a newsletter.
 - Página "Nosotros" con mapa embebido.
@@ -39,6 +39,7 @@ E-commerce de mascotas: tienda online (alimento, accesorios e higiene para perro
 - CRUD de productos y servicios, con carga de imágenes directo a Cloudinary.
 - Gestión de pedidos (cambio de estado).
 - CRUD de artículos de blog (con editor de secciones/anclas).
+- Búsqueda y orden por nombre, precio y stock en productos; por fecha y total en pedidos; y por título/actualización en artículos.
 - Listado de mensajes de contacto y suscriptores del newsletter.
 - Responsive: en mobile, las tablas colapsan las columnas secundarias y el menú se abre en un panel lateral.
 
@@ -121,7 +122,19 @@ URI_DB=mongodb+srv://usuario:password@cluster.mongodb.net/petshop
 PORT=5001
 JWT_SECRET=cualquier-string-secreto
 FRONTEND_URL=http://localhost:5173
+MP_ACCESS_TOKEN=
+MP_WEBHOOK_SECRET=
+MP_ENVIRONMENT=test
+BACKEND_URL=https://tu-backend.onrender.com
+TRANSFER_BANK_NAME=
+TRANSFER_ACCOUNT_TYPE=
+TRANSFER_ACCOUNT_HOLDER=
+TRANSFER_TAX_ID=
+TRANSFER_CBU=
+TRANSFER_ALIAS=
 ```
+
+Mercado Pago se activa al configurar `MP_ACCESS_TOKEN` y `MP_WEBHOOK_SECRET`. Para probar, usá las credenciales de prueba y `MP_ENVIRONMENT=test`; para cobros reales usá el token de producción y cambiá a `MP_ENVIRONMENT=production`. Las variables `TRANSFER_*` permiten mostrar los datos bancarios del comercio en el checkout.
 
 (`CLOUDINARY_*` y `WHATSAPP_BUSINESS_NUMBER` en el `.env.example` quedan como referencia para una futura integración server-side; hoy la subida de imágenes y el mensaje de WhatsApp se resuelven desde el frontend, no requieren esas variables en el backend para funcionar).
 
@@ -211,6 +224,7 @@ Base URL local: `http://localhost:5001/api`
 | Servicios  | `GET /services`, `GET /services/admin` (admin), `POST/PUT/DELETE /services` (admin)                   |
 | Usuarios   | `POST /users/register`, `POST /users/login`, `GET /users/me`                                          |
 | Pedidos    | `POST /orders`, `GET /orders`, `GET /orders/:id`, `PATCH /orders/:id/status` (admin)                  |
+| Pagos      | `GET /payments/config`, `GET /payments/orders/:id/status`, `POST /payments/webhook`, `PATCH /payments/orders/:id/transfer/confirm` (admin) |
 | Blog       | `GET /posts`, `GET /posts/admin` (admin), `GET /posts/:slug`, `POST/PUT/DELETE /posts` (admin)        |
 | Newsletter | `POST /newsletter`, `GET /newsletter` (admin)                                                         |
 | Contacto   | `POST /contact`, `GET /contact` (admin)                                                               |
@@ -225,6 +239,10 @@ Las rutas marcadas "(admin)" requieren header `Authorization: Bearer <token>` de
 4. Actualizar `FRONTEND_URL` en el backend con la URL final de Vercel (se usa para la validación de CORS).
 
 ## Notas y limitaciones conocidas
+
+El modelo de colecciones, relaciones, control de roles y medios de pago se documentan en [`docs/modelo-datos.md`](docs/modelo-datos.md).
+
+En Render, configurar `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `BACKEND_URL` y `FRONTEND_URL`. En la aplicación de Mercado Pago, configurar el evento de pagos para notificar a `BACKEND_URL/api/payments/webhook`. La transferencia queda pendiente hasta que administración verifique y acredite el ingreso desde el panel de pedidos. Petshop no recibe ni almacena números de tarjeta.
 
 - El blog no tiene sistema de comentarios (decisión de alcance para priorizar el resto de las features).
 - Los mensajes de contacto y las suscripciones al newsletter no envían un email de notificación; quedan guardados en MongoDB y se consultan desde `/admin/mensajes`.

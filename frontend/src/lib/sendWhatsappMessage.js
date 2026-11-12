@@ -1,6 +1,6 @@
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
 
-export const sendWhatsappMessage = (cart, total, customerData) => {
+export const sendWhatsappMessage = (cart, total, customerData, options = {}) => {
   const itemsMessage = cart
     .map(
       (item) =>
@@ -8,7 +8,11 @@ export const sendWhatsappMessage = (cart, total, customerData) => {
     )
     .join("\n");
 
-  const message = `¡Hola! Quiero confirmar mi pedido:\n\n${itemsMessage}\n\nTotal: ${total}\n\nDatos de envío:\nNombre: ${customerData.fullName}\nTeléfono: ${customerData.phone}\nDirección: ${customerData.address}${customerData.notes ? `\nNotas: ${customerData.notes}` : ""}`;
+  const orderReference = options.orderId ? `\nPedido: #${options.orderId.slice(-6).toUpperCase()}` : "";
+  const paymentLine = options.paymentMethod === "transfer"
+    ? "\nForma de pago: transferencia bancaria. Adjunto el comprobante de pago."
+    : "\nForma de pago: coordinar por WhatsApp.";
+  const message = `¡Hola! Quiero confirmar mi pedido:${orderReference}\n\n${itemsMessage}\n\nTotal: ${total}${paymentLine}\n\nDatos de envío:\nNombre: ${customerData.fullName}\nTeléfono: ${customerData.phone}\nDirección: ${customerData.address}${customerData.notes ? `\nNotas: ${customerData.notes}` : ""}`;
 
   const encodedMessage = encodeURIComponent(message);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);

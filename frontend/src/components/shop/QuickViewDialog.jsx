@@ -50,10 +50,10 @@ export default function QuickViewDialog({ product, open, onOpenChange }) {
           </div>
         </div>
         <DialogFooter className="gap-2 sm:justify-between">
-          <Button variant="outline" render={<Link to={`/tienda/${product._id}`} />}>
+          <Button variant="outline" className="h-11 cursor-pointer" render={<Link to={`/tienda/${product._id}`} />}>
             Ver detalle completo
           </Button>
-          <Button disabled={product.stock === 0} onClick={() => addToCart(product)}>
+          <Button className="h-11 cursor-pointer" disabled={product.stock === 0} onClick={() => addToCart(product)}>
             Agregar al carrito
           </Button>
         </DialogFooter>

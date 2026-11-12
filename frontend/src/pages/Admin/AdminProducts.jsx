@@ -22,6 +22,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import ProductFormDialog from "@/components/admin/ProductFormDialog";
+import AdminTableToolbar from "@/components/admin/AdminTableToolbar";
 import { formatPrice } from "@/lib/formatPrice";
 import { fetchProducts, createProduct, updateProduct, deleteProduct } from "@/lib/productApi";
 
@@ -31,6 +32,8 @@ export default function AdminProducts() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("name-asc");
 
   const loadProducts = () => {
     setLoading(true);
@@ -41,6 +44,10 @@ export default function AdminProducts() {
   };
 
   useEffect(loadProducts, []);
+
+  const visibleProducts = products
+    .filter((product) => `${product.name} ${product.category} ${product.animalType}`.toLowerCase().includes(search.trim().toLowerCase()))
+    .sort((a, b) => sort === "price-asc" ? a.price - b.price : sort === "price-desc" ? b.price - a.price : sort === "stock-asc" ? a.stock - b.stock : a.name.localeCompare(b.name, "es"));
 
   const handleSubmit = async (data) => {
     setSubmitting(true);
@@ -87,6 +94,8 @@ export default function AdminProducts() {
         </Button>
       </div>
 
+      <AdminTableToolbar search={search} onSearchChange={setSearch} sort={sort} onSortChange={setSort} noun="productos" count={visibleProducts.length} sortOptions={[{value:"name-asc",label:"Nombre A-Z"},{value:"price-asc",label:"Precio menor"},{value:"price-desc",label:"Precio mayor"},{value:"stock-asc",label:"Menor stock"}]} />
+
       {loading ? (
         <p className="text-sm text-muted-foreground">Cargando...</p>
       ) : (
@@ -101,7 +110,7 @@ export default function AdminProducts() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
+            {visibleProducts.map((product) => (
               <TableRow key={product._id}>
                 <TableCell className="font-medium">
                   {product.name}
@@ -151,6 +160,7 @@ export default function AdminProducts() {
           </TableBody>
         </Table>
       )}
+      {!loading && visibleProducts.length === 0 && <p className="rounded-lg border bg-card p-8 text-center text-sm text-muted-foreground">No hay productos que coincidan con la búsqueda.</p>}
 
       <ProductFormDialog
         open={dialogOpen}

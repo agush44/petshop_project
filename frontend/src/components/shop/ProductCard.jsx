@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
             size="icon"
             variant="secondary"
             aria-label="Vista rápida"
-            className="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
+            className="absolute top-2 right-2 size-10 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100"
             onClick={() => setQuickViewOpen(true)}
           >
             <Eye className="size-4" />
@@ -60,7 +60,7 @@ export default function ProductCard({ product }) {
             </div>
           </div>
           <Button
-            className="mt-auto w-full"
+            className="mt-auto h-11 w-full cursor-pointer"
             size="sm"
             disabled={product.stock === 0}
             onClick={() => addToCart(product)}

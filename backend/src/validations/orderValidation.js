@@ -9,6 +9,7 @@ const orderItemSchema = Joi.object({
 }).messages(esMessages);
 
 const orderSchema = Joi.object({
+  paymentMethod: Joi.string().valid("whatsapp", "transfer", "mercadopago").default("whatsapp"),
   items: Joi.array().items(orderItemSchema).min(1).required().label("Los productos"),
   total: Joi.number().min(0).required().label("El total"),
   shipping: Joi.object({

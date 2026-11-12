@@ -23,6 +23,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import PostFormDialog from "@/components/admin/PostFormDialog";
+import AdminTableToolbar from "@/components/admin/AdminTableToolbar";
 import { fetchPostsAdmin, createPost, updatePost, deletePost } from "@/lib/postApi";
 
 export default function AdminBlog() {
@@ -31,6 +32,8 @@ export default function AdminBlog() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingPost, setEditingPost] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("title-asc");
 
   const loadPosts = () => {
     setLoading(true);
@@ -41,6 +44,10 @@ export default function AdminBlog() {
   };
 
   useEffect(loadPosts, []);
+
+  const visiblePosts = posts
+    .filter((post) => `${post.title} ${post.slug} ${post.author || ""}`.toLowerCase().includes(search.trim().toLowerCase()))
+    .sort((a, b) => sort === "date-desc" ? new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt) : a.title.localeCompare(b.title, "es"));
 
   const handleSubmit = async (data) => {
     setSubmitting(true);
@@ -86,6 +93,7 @@ export default function AdminBlog() {
           Nuevo artículo
         </Button>
       </div>
+      <AdminTableToolbar search={search} onSearchChange={setSearch} sort={sort} onSortChange={setSort} noun="artículos" count={visiblePosts.length} sortOptions={[{value:"title-asc",label:"Título A-Z"},{value:"date-desc",label:"Última actualización"}]} />
 
       {loading ? (
         <p className="text-sm text-muted-foreground">Cargando...</p>
@@ -100,7 +108,7 @@ export default function AdminBlog() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {posts.map((post) => (
+            {visiblePosts.map((post) => (
               <TableRow key={post._id}>
                 <TableCell className="font-medium">
                   {post.title}
@@ -153,6 +161,7 @@ export default function AdminBlog() {
           </TableBody>
         </Table>
       )}
+      {!loading && visiblePosts.length === 0 && <p className="rounded-lg border bg-card p-8 text-center text-sm text-muted-foreground">No hay artículos que coincidan con la búsqueda.</p>}
 
       <PostFormDialog
         open={dialogOpen}

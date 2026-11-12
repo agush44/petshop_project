@@ -103,7 +103,7 @@ export default function Carrito() {
                 Ahorrás {totalSavingsPrice}
               </p>
             )}
-            <Button render={<Link to="/checkout" />} size="lg">
+            <Button render={<Link to="/checkout" />} size="lg" className="h-11">
               Finalizar compra
             </Button>
           </div>

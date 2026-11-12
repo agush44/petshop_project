@@ -22,3 +22,9 @@ export const updateOrderStatus = (id, status) =>
 
 export const confirmOrderWhatsapp = (id) =>
   fetchData(`${API_URL}/api/orders/${id}/whatsapp-confirm`, { method: "PATCH" });
+
+export const confirmBankTransfer = (id) =>
+  fetchData(`${API_URL}/api/payments/orders/${id}/transfer/confirm`, {
+    method: "PATCH",
+    headers: authHeaders(),
+  });

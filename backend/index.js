@@ -14,6 +14,7 @@ import { orderRoutes } from "./src/routes/orderRoutes.js";
 import { postRoutes } from "./src/routes/postRoutes.js";
 import { newsletterRoutes } from "./src/routes/newsletterRoutes.js";
 import { contactRoutes } from "./src/routes/contactRoutes.js";
+import { paymentRoutes } from "./src/routes/paymentRoutes.js";
 
 const PORT = process.env.PORT || 5001;
 const app = express();
@@ -37,6 +38,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/payments", paymentRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/contact", contactRoutes);

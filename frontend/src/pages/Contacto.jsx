@@ -74,7 +74,7 @@ export default function Contacto() {
                 {...contactForm.register("message", { required: true })}
               />
             </div>
-            <Button type="submit" disabled={sendingContact}>
+            <Button type="submit" className="h-11" disabled={sendingContact}>
               {sendingContact ? "Enviando..." : "Enviar mensaje"}
             </Button>
           </form>
@@ -95,7 +95,7 @@ export default function Contacto() {
               aria-label="Correo para newsletter"
               {...newsletterForm.register("email", { required: true })}
             />
-            <Button type="submit" disabled={sendingNewsletter}>
+            <Button type="submit" className="h-11" disabled={sendingNewsletter}>
               Suscribirme
             </Button>
           </form>
